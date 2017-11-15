@@ -47,3 +47,5 @@ unnotify.destroy(notificationID);
 user@username ~> npm install
 user@username ~> gulp
 ```
+
+Make necessary code changes in unnotify.ts
