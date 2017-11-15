@@ -1,10 +1,11 @@
 # unnotify
+
 Pure JS growlish notifications with zero dependencies, simple API written in TypeScript. No jQuery needed either.
 
 ## Installation
 
 ```bash
-npm install unnotify --save
+user@username ~> npm install unnotify --save
 ```
 
 - If integrating using browserify:
@@ -18,7 +19,7 @@ import * as unnotify from 'unnotify';
 - If integrating to webpage:
 
 ```html
-<script src="unnotify.min.js" type="text/javascript"></script>
+<script src="dist/unnotify.min.js" type="text/javascript"></script>
 ```
 
 ## Usage
@@ -40,3 +41,9 @@ var notificationID = unnotify.show('This is the Title', 'This is the content', {
 unnotify.destroy(notificationID);
 ```
 
+## Dev
+
+```bash
+user@username ~> npm install
+user@username ~> gulp
+```
