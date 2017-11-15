@@ -100,7 +100,6 @@ exports.destroy = destroy;
 /**Internal function to destroy the notification */
 function __destroy(div) {
     try {
-        console.log(div);
         div.parentNode.removeChild(div);
     }
     catch (e) { }

@@ -185,7 +185,6 @@ export function destroy(id: string) {
 /**Internal function to destroy the notification */
 function __destroy(div: HTMLDivElement) {
     try {
-        console.log(div);
         div.parentNode.removeChild(div);
     } catch(e) {}
 }
