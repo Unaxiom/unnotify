@@ -15,8 +15,6 @@ export function init() {
             top: 20px;
             z-index: 25000;
             overflow-y: auto;
-            padding: 10px;
-            margin: 0px 10px;
             overflow-x: hidden;
         }
 
@@ -74,6 +72,8 @@ export function init() {
             .${notificationCenterClassName} {
                 width: 360px;
                 right: 0px;
+                padding: 10px;
+                margin: 0px 20px;
             }
 
             .${eachNotificationClassName} {
@@ -86,6 +86,8 @@ export function init() {
             .${notificationCenterClassName} {
                 width: 360px;
                 right: 0px;
+                padding: 10px;
+                margin: 0px 20px;
             }
 
             .${eachNotificationClassName} {
