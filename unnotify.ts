@@ -12,13 +12,12 @@ export function init() {
     notificationCenterStyle.innerHTML = `
         .${notificationCenterClassName} {
             position: absolute;
-            top: 10px;
-            height: 100vh;
-            max-height: 100vh;
+            top: 20px;
             z-index: 25000;
             overflow-y: auto;
             padding: 10px;
             margin: 0px 10px;
+            overflow-x: hidden;
         }
 
         .${eachNotificationClassName} {
@@ -28,7 +27,7 @@ export function init() {
             color: #fff;
             width: 350px;
             min-height: 40px;
-            position: relative;
+            position: static;
             top: 30px;
             z-index: 25100;
         }
@@ -61,11 +60,12 @@ export function init() {
         /* Custom, iPhone Retina */ 
         @media only screen and (min-width : 320px) {
             .${notificationCenterClassName} {
-                width: 300px;
+                margin: 0px 2px;
+                padding: 0px 2px;
             }
 
             .${eachNotificationClassName} {
-                width: 100%;
+                width: 300px;
             }
         }
     
