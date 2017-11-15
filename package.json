@@ -1,8 +1,8 @@
 {
   "name": "unnotify",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pure JS growlish notifications with zero dependencies, simple API written in TypeScript.",
-  "main": "dist/unnotify.min.js",
+  "main": "src/unnotify.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
