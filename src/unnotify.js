@@ -76,25 +76,28 @@ function show(title, content, options) {
 exports.show = show;
 /**Destroys the notification with the associated ID */
 function destroy(id) {
-    var div = document.getElementById(id);
-    // Apply the animate-out class
-    var animateOut = div.getAttribute("data-animate-out");
-    var animateIn = div.getAttribute("data-animate-in");
-    if (animateOut.length != 0) {
-        if (!div.classList.contains("animated")) {
-            div.classList.add("animated");
+    try {
+        var div_1 = document.getElementById(id);
+        // Apply the animate-out class
+        var animateOut = div_1.getAttribute("data-animate-out");
+        var animateIn = div_1.getAttribute("data-animate-in");
+        if (animateOut.length != 0) {
+            if (!div_1.classList.contains("animated")) {
+                div_1.classList.add("animated");
+            }
+            if (animateIn.length != 0) {
+                div_1.classList.remove(animateIn);
+            }
+            div_1.classList.add(animateOut);
+            setTimeout(function () {
+                __destroy(div_1);
+            }, 1000);
         }
-        if (animateIn.length != 0) {
-            div.classList.remove(animateIn);
+        else {
+            __destroy(div_1);
         }
-        div.classList.add(animateOut);
-        setTimeout(function () {
-            __destroy(div);
-        }, 1000);
     }
-    else {
-        __destroy(div);
-    }
+    catch (e) { }
 }
 exports.destroy = destroy;
 /**Internal function to destroy the notification */

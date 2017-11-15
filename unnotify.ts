@@ -162,24 +162,26 @@ export function show(title: string, content: string, options: options): string {
 
 /**Destroys the notification with the associated ID */
 export function destroy(id: string) {
-    let div = <HTMLDivElement>document.getElementById(id);
-    // Apply the animate-out class
-    let animateOut = div.getAttribute("data-animate-out");
-    let animateIn = div.getAttribute("data-animate-in");
-    if (animateOut.length != 0) {
-        if (!div.classList.contains("animated")) {
-            div.classList.add("animated");
+    try {
+        let div = <HTMLDivElement>document.getElementById(id);
+        // Apply the animate-out class
+        let animateOut = div.getAttribute("data-animate-out");
+        let animateIn = div.getAttribute("data-animate-in");
+        if (animateOut.length != 0) {
+            if (!div.classList.contains("animated")) {
+                div.classList.add("animated");
+            }
+            if (animateIn.length != 0) {
+                div.classList.remove(animateIn);
+            }
+            div.classList.add(animateOut);
+            setTimeout(function() {
+                __destroy(div);    
+            }, 1000);
+        } else {
+            __destroy(div);
         }
-        if (animateIn.length != 0) {
-            div.classList.remove(animateIn);
-        }
-        div.classList.add(animateOut);
-        setTimeout(function() {
-            __destroy(div);    
-        }, 1000);
-    } else {
-        __destroy(div);
-    }
+    } catch(e) {}
 }
 
 /**Internal function to destroy the notification */
