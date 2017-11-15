@@ -1,0 +1,29 @@
+{
+  "name": "unnotify",
+  "version": "0.1.0",
+  "description": "Pure JS growlish notifications with zero dependencies, simple API written in TypeScript.",
+  "main": "unnotify.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Unaxiom/unnotify.git"
+  },
+  "keywords": [
+    "JS",
+    "Javascript",
+    "Typescript",
+    "Notifications",
+    "UI",
+    "Growl",
+    "Alerts",
+    "TS"
+  ],
+  "author": "Pratheek Adidela",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/Unaxiom/unnotify/issues"
+  },
+  "homepage": "https://github.com/Unaxiom/unnotify#readme"
+}
