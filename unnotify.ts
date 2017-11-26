@@ -28,6 +28,7 @@ export function init() {
             position: static;
             top: 30px;
             z-index: 25100;
+            pointer-events: none;
         }
 
         .${notificationButtonClassName} {
@@ -37,6 +38,7 @@ export function init() {
             right: -10px;
             background-color: transparent;
             border: none;
+            pointer-events: initial;
         }
 
         .unnotify-success {
