@@ -1,5 +1,7 @@
 # unnotify
 
+**Project has migrated to [@unaxiom/unnotify](https://www.npmjs.com/package/@unaxiom/unnotify). This package is only for legacy purposes.**
+
 Pure JS growlish notifications with zero dependencies, simple API written in TypeScript. No jQuery needed either.
 
 ## Installation
