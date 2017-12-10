@@ -113,11 +113,11 @@ export function show(title: string, content: string, options: options): string {
     div.classList.add(eachNotificationClassName);
 
     if (options.type == "success" || options.type == "info" || options.type == "danger" || options.type == "warning") {
-        div.classList.add("unnotify-"+options.type);
-    } else if (typeof(options.customClass) != "undefined" || typeof(options.customClass) != null || options.customClass != "") {
+        div.classList.add("unnotify-" + options.type);
+    } else if (typeof (options.customClass) != "undefined" || typeof (options.customClass) != null || options.customClass != "") {
         div.classList.add(options.customClass);
     }
-    
+
     let titleDiv = document.createElement("div");
     let titleSpan = document.createElement("span");
     titleSpan.innerText = title;
@@ -126,25 +126,25 @@ export function show(title: string, content: string, options: options): string {
     closeButton.classList.add(notificationButtonClassName);
     closeButton.innerText = "x";
     titleDiv.appendChild(closeButton);
-    closeButton.addEventListener('click', function() {
+    closeButton.addEventListener('click', function () {
         destroy(div.id);
     });
 
     // If timeout is 0, then don't autodestroy it
-    if (typeof(options.timeout) == "undefined" || typeof(options.timeout) == null || options.timeout < 0) {
-        setTimeout(function() {
+    if (typeof (options.timeout) == "undefined" || typeof (options.timeout) == null || options.timeout < 0) {
+        setTimeout(function () {
             destroy(div.id);
         }, defaultTimeout);
     } else if (options.timeout > 0) {
-        setTimeout(function() {
+        setTimeout(function () {
             destroy(div.id);
         }, options.timeout)
     }
-    
+
     let contentDiv = document.createElement("div");
     contentDiv.innerHTML = content;
 
-    if (typeof(options.animateIn) != "undefined") {
+    if (typeof (options.animateIn) != "undefined") {
         div.classList.add("animated");
         div.classList.add(options.animateIn);
         div.setAttribute("data-animate-in", options.animateIn);
@@ -152,7 +152,7 @@ export function show(title: string, content: string, options: options): string {
         div.setAttribute("data-animate-in", "");
     }
 
-    if (typeof(options.animateOut) != "undefined") {
+    if (typeof (options.animateOut) != "undefined") {
         div.setAttribute("data-animate-out", options.animateOut);
     } else {
         div.setAttribute("data-animate-out", "");
@@ -179,20 +179,20 @@ export function destroy(id: string) {
                 div.classList.remove(animateIn);
             }
             div.classList.add(animateOut);
-            setTimeout(function() {
-                __destroy(div);    
+            setTimeout(function () {
+                __destroy(div);
             }, 1000);
         } else {
             __destroy(div);
         }
-    } catch(e) {}
+    } catch (e) { }
 }
 
 /**Internal function to destroy the notification */
 function __destroy(div: HTMLDivElement) {
     try {
         div.parentNode.removeChild(div);
-    } catch(e) {}
+    } catch (e) { }
 }
 
 /**Stores the available options */
