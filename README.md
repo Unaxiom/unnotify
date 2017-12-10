@@ -1,13 +1,11 @@
 # unnotify
 
-**Project has migrated to [@unaxiom/unnotify](https://www.npmjs.com/package/@unaxiom/unnotify). This package is only for legacy purposes.**
-
 Pure JS growlish notifications with zero dependencies, simple API written in TypeScript. No jQuery needed either.
 
 ## Installation
 
 ```bash
-user@username ~> npm install unnotify --save
+user@username ~> npm install @unaxiom/unnotify --save
 ```
 
 - If integrating using browserify:
@@ -15,7 +13,7 @@ user@username ~> npm install unnotify --save
 In your typescript files, import as:
 
 ```ts
-import * as unnotify from 'unnotify';
+import * as unnotify from '@unaxiom/unnotify';
 ```
 
 - If integrating to webpage:
