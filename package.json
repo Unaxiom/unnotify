@@ -1,6 +1,6 @@
 {
   "name": "@unaxiom/unnotify",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Pure JS growlish notifications with zero dependencies, simple API written in TypeScript.",
   "main": "src/unnotify.js",
   "scripts": {
