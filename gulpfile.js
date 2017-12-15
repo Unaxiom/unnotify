@@ -14,7 +14,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var compilation = tsb.create({
     target: 'es3',
     module: 'commonjs',
-    declaration: false,
+    declaration: true,
     lib: ["es2015", "es2015.promise", "dom", "es5"],
 });
 
