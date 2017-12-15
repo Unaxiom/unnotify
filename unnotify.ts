@@ -198,7 +198,7 @@ function __destroy(div: HTMLDivElement) {
 /**Stores the available options */
 export interface options {
     /**Notification type, if custom, then customClass will hold the class name that needs to be applied. */
-    type: 'success' | 'info' | 'warning' | 'danger' | 'custom';
+    type: 'success' | 'info' | 'warning' | 'danger' | 'custom' | string;
     /**Timeout in milliseconds. Default is 5000. */
     timeout?: number;
     /**Class name to be applied to the notification. `type` should be set to `custom`. */
