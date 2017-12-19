@@ -21,7 +21,8 @@ var compilation = tsb.create({
 // add custom browserify options here
 var customOpts = {
     entries: ['./src/unnotify.js'],
-    debug: true
+    debug: true,
+    standalone: 'unnotify'
 };
 var opts = assign({}, watchify.args, customOpts);
 var b = watchify(browserify(opts));
