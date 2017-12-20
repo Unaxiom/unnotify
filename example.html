@@ -11,10 +11,16 @@
 <script type="text/javascript" src="dist/unnotify.min.js"></script>
 <script type="text/javascript">
     window.addEventListener('load', function () {
-        var obj = new unnotify.Unnotify('left');
-        obj.show("Hi", "There", {
-            timeout: 5000,
+        var left = new unnotify.Unnotify('left');
+        left.show("Hi", "From left", {
+            timeout: 0,
             type: 'info'
+        });
+
+        var right = new unnotify.Unnotify('right');
+        right.show("Hi", "From right", {
+            timeout: 4000,
+            type: 'success'
         });
     });
 </script>

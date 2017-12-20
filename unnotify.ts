@@ -6,6 +6,8 @@ const defaultTimeout = 5000;
 
 /**Class that can display the notifications */
 export class Unnotify {
+    localNotificationCenterClassName: string
+    localEachNotificationClassName: string
     /**Initialises everything. Accepts the side, whose dafault is right. Possible values are 'right', 'left' */
     constructor(side?: 'left' | 'right') {
         if (side === undefined || side === null) {
@@ -15,11 +17,13 @@ export class Unnotify {
         } else {
             side = 'right';
         }
+        this.localNotificationCenterClassName = `${notificationCenterClassName}-${side}`;
+        this.localEachNotificationClassName = `${eachNotificationClassName}-${side}`;
         // Create the CSS rules required for the notification center
         let notificationCenterStyle = document.createElement("style");
         notificationCenterStyle.type = "text/css";
         notificationCenterStyle.innerHTML = `
-        .${notificationCenterClassName} {
+        .${this.localNotificationCenterClassName} {
             position: absolute;
             top: 20px;
             z-index: 25000;
@@ -27,7 +31,7 @@ export class Unnotify {
             overflow-x: hidden;
         }
 
-        .${eachNotificationClassName} {
+        .${this.localEachNotificationClassName} {
             padding: 10px;
             margin: 10px;
             border-radius: 5px;
@@ -68,40 +72,40 @@ export class Unnotify {
 
         /* Custom, iPhone Retina */ 
         @media only screen and (min-width : 320px) {
-            .${notificationCenterClassName} {
+            .${this.localNotificationCenterClassName} {
                 margin: 0px 2px;
                 padding: 0px 2px;
             }
 
-            .${eachNotificationClassName} {
+            .${this.localEachNotificationClassName} {
                 width: 300px;
             }
         }
     
         /* Extra Small Devices, Phones */ 
         @media only screen and (min-width : 480px) {
-            .${notificationCenterClassName} {
+            .${this.localNotificationCenterClassName} {
                 width: 360px;
-                right: 0px;
+                ${side}: 0px;
                 padding: 10px;
                 margin: 0px 20px;
             }
 
-            .${eachNotificationClassName} {
+            .${this.localEachNotificationClassName} {
                 width: 100%;
             }
         }
     
         /* Small Devices, Tablets */
         @media only screen and (min-width : 768px) {
-            .${notificationCenterClassName} {
+            .${this.localNotificationCenterClassName} {
                 width: 360px;
-                right: 0px;
+                ${side}: 0px;
                 padding: 10px;
                 margin: 0px 20px;
             }
 
-            .${eachNotificationClassName} {
+            .${this.localEachNotificationClassName} {
                 width: 100%;
             }
         }
@@ -110,7 +114,7 @@ export class Unnotify {
 
         // Create the notification center
         notificationCenter = document.createElement("div");
-        notificationCenter.classList.add(notificationCenterClassName);
+        notificationCenter.classList.add(this.localNotificationCenterClassName);
         // document.body.appendChild(notificationCenter);
         document.body.insertBefore(notificationCenter, document.body.firstChild);
     }
@@ -119,7 +123,7 @@ export class Unnotify {
     show(title: string, content: string, options: options): string {
         let div = document.createElement("div");
         div.id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-        div.classList.add(eachNotificationClassName);
+        div.classList.add(this.localEachNotificationClassName);
 
         if (options.type == "success" || options.type == "info" || options.type == "danger" || options.type == "warning") {
             div.classList.add("unnotify-" + options.type);
