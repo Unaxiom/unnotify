@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Unnotify Example</title>
+</head>
+
+<body>
+    <h1>This is the example HTML file for running unnotify examples.</h1>
+</body>
+<script type="text/javascript" src="dist/unnotify.min.js"></script>
+<script type="text/javascript">
+    window.addEventListener('load', function () {
+        var obj = new unnotify.Unnotify('left');
+        obj.show("Hi", "There", {
+            timeout: 0,
+            type: 'info'
+        });
+    });
+</script>
+
+</html>
