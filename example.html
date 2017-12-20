@@ -3,6 +3,7 @@
 
 <head>
     <title>Unnotify Example</title>
+    <link rel="stylesheet" href="node_modules/animate.css/animate.min.css">
 </head>
 
 <body>
@@ -11,17 +12,29 @@
 <script type="text/javascript" src="dist/unnotify.min.js"></script>
 <script type="text/javascript">
     window.addEventListener('load', function () {
-        var left = new unnotify.Unnotify('left');
-        left.show("Hi", "From left", {
-            timeout: 0,
-            type: 'info'
+        var left = new unnotify.Unnotify('right');
+        left.show("Hi", "From right", {
+            timeout: 2000,
+            type: 'info',
+            animateIn: 'fadeInUpBig',
+            animateOut: 'rotateOutDownLeft'
         });
 
-        var right = new unnotify.Unnotify('right');
-        right.show("Hi", "From right", {
-            timeout: 4000,
-            type: 'success'
+        // var right = new unnotify.Unnotify('right');
+        // right.show("Hi", "From right", {
+        //     timeout: 4000,
+        //     type: 'success'
+        // });
+        unnotify.init('left');
+        var a = unnotify.show("Hi", "From normal (left)", {
+            timeout: 0,
+            type: 'success',
+            animateIn: 'fadeInRight',
+            animateOut: 'zoomOutUp'
         });
+        setTimeout(function () {
+            unnotify.destroy(a);
+        }, 4000);
     });
 </script>
 
