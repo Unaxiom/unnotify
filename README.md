@@ -24,9 +24,11 @@ import * as unnotify from '@unaxiom/unnotify';
 
 ## Usage
 
+- Simple functions
+
 ```js
 // Initialization is required just once across all the files.
-unnotify.init();
+unnotify.init(); // Default is on the right. Also accepts a string - 'left' or 'right'
 
 // To display a notification
 var notificationID = unnotify.show('This is the Title', 'This is the content', {
@@ -39,6 +41,29 @@ var notificationID = unnotify.show('This is the Title', 'This is the content', {
 
 // To close the notification programatically
 unnotify.destroy(notificationID);
+```
+
+- Use object
+
+```js
+var notificationCenter = new unnotify.Unnotify('right'); // Accepts either 'right' or 'left'
+var id = notificationCenter.show("Hi", "From right", {
+    timeout: 0,
+    type: 'info',
+    animateIn: 'fadeInUpBig',
+    animateOut: 'rotateOutDownLeft'
+});
+
+setTimeout(function () {
+    notificationCenter.destroy(id);
+}, 8000);
+
+notificationCenter.show("Hi Again", "From right", {
+    timeout: 5000,
+    type: 'danger',
+    animateIn: 'fadeInUpBig',
+    animateOut: 'rotateOutDownLeft'
+});
 ```
 
 ## Dev
