@@ -87,6 +87,7 @@ var Unnotify = /** @class */ (function () {
     /**Destroys the notification with the associated ID */
     Unnotify.prototype.destroy = function (id) {
         try {
+            var unnotifyObj_1 = this;
             var div_1 = document.getElementById(id);
             // Apply the animate-out class
             var animateOut = div_1.getAttribute("data-animate-out");
@@ -100,11 +101,11 @@ var Unnotify = /** @class */ (function () {
                 }
                 div_1.classList.add(animateOut);
                 setTimeout(function () {
-                    this.__destroy(div_1);
+                    unnotifyObj_1.__destroy(div_1);
                 }, 1000);
             }
             else {
-                this.__destroy(div_1);
+                unnotifyObj_1.__destroy(div_1);
             }
         }
         catch (e) { }
