@@ -34,6 +34,7 @@ function __unnotifyReturnClasses(localNotificationCenterClassName: string, local
             z-index: 25000;
             overflow-y: auto;
             overflow-x: hidden;
+            pointer-events: none;
         }
 
         .${localEachNotificationClassName} {
