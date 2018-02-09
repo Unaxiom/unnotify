@@ -5,7 +5,7 @@ const notificationButtonClassName = "unnotify-button";
 const defaultTimeout = 5000;
 
 /**Creates and appends the stylesheet to the document */
-function __unnotifyCreateStyleSheet(localNotificationCenterClassName: string, localEachNotificationClassName: string, notificationButtonClassName: string, side: string) {
+function __unnotifyCreateStyleSheet(localNotificationCenterClassName: string, localEachNotificationClassName: string, notificationButtonClassName: string, side: string, clickable: boolean) {
     if (side === undefined || side === null) {
         side = "right";
     } else if (side === 'left') {
@@ -15,7 +15,7 @@ function __unnotifyCreateStyleSheet(localNotificationCenterClassName: string, lo
     }
     let notificationCenterStyle = document.createElement("style");
     notificationCenterStyle.type = "text/css";
-    notificationCenterStyle.innerHTML = __unnotifyReturnClasses(localNotificationCenterClassName, localEachNotificationClassName, notificationButtonClassName, side)
+    notificationCenterStyle.innerHTML = __unnotifyReturnClasses(localNotificationCenterClassName, localEachNotificationClassName, notificationButtonClassName, side, clickable)
     document.getElementsByTagName('head')[0].appendChild(notificationCenterStyle);
 
     // Create the notification center
@@ -26,7 +26,11 @@ function __unnotifyCreateStyleSheet(localNotificationCenterClassName: string, lo
 }
 
 /**Returns the required classes */
-function __unnotifyReturnClasses(localNotificationCenterClassName: string, localEachNotificationClassName: string, localNotificationButtonClassName: string, side: string): string {
+function __unnotifyReturnClasses(localNotificationCenterClassName: string, localEachNotificationClassName: string, localNotificationButtonClassName: string, side: string, clickable: boolean): string {
+    let pointerEvents = "initial";
+    if (!clickable) {
+        pointerEvents = "none";
+    }
     return `
         .${localNotificationCenterClassName} {
             position: absolute;
@@ -34,7 +38,7 @@ function __unnotifyReturnClasses(localNotificationCenterClassName: string, local
             z-index: 25000;
             overflow-y: auto;
             overflow-x: hidden;
-            pointer-events: none;
+            pointer-events: ${pointerEvents};
         }
 
         .${localEachNotificationClassName} {
@@ -47,7 +51,7 @@ function __unnotifyReturnClasses(localNotificationCenterClassName: string, local
             position: static;
             top: 30px;
             z-index: 25100;
-            pointer-events: none;
+            pointer-events: ${pointerEvents};
         }
 
         .${localNotificationButtonClassName} {
@@ -225,8 +229,8 @@ function __unnotifyDestroy(id: string) {
 }
 
 /**Initialises the notification module */
-export function init(side?: 'left' | 'right') {
-    __unnotifyCreateStyleSheet(notificationCenterClassName, eachNotificationClassName, notificationButtonClassName, side)
+export function init(side?: 'left' | 'right', clickable?: boolean) {
+    __unnotifyCreateStyleSheet(notificationCenterClassName, eachNotificationClassName, notificationButtonClassName, side, clickable);
 }
 
 /**Displays the notification and returns the ID of the notification element. Title is a string, content can either be a string or HTML. */
@@ -244,11 +248,11 @@ export class Unnotify {
     localNotificationCenterClassName: string
     localEachNotificationClassName: string
     /**Initialises everything. Accepts the side, whose dafault is right. Possible values are 'right', 'left' */
-    constructor(side?: 'left' | 'right') {
+    constructor(side?: 'left' | 'right', clickable?: boolean) {
         this.localNotificationCenterClassName = `${notificationCenterClassName}-${side}`;
         this.localEachNotificationClassName = `${eachNotificationClassName}-${side}`;
         // Create the CSS rules required for the notification center
-        __unnotifyCreateStyleSheet(this.localNotificationCenterClassName, this.localEachNotificationClassName, notificationButtonClassName, side)
+        __unnotifyCreateStyleSheet(this.localNotificationCenterClassName, this.localEachNotificationClassName, notificationButtonClassName, side, clickable)
     }
 
     /**Displays the notification and returns the ID of the notification element. Title is a string, content can either be a string or HTML. */

@@ -1,5 +1,5 @@
 /**Initialises the notification module */
-export declare function init(side?: 'left' | 'right'): void;
+export declare function init(side?: 'left' | 'right', clickable?: boolean): void;
 /**Displays the notification and returns the ID of the notification element. Title is a string, content can either be a string or HTML. */
 export declare function show(title: string, content: string, options: options): string;
 /**Destroys the notification with the associated ID */
@@ -9,7 +9,7 @@ export declare class Unnotify {
     localNotificationCenterClassName: string;
     localEachNotificationClassName: string;
     /**Initialises everything. Accepts the side, whose dafault is right. Possible values are 'right', 'left' */
-    constructor(side?: 'left' | 'right');
+    constructor(side?: 'left' | 'right', clickable?: boolean);
     /**Displays the notification and returns the ID of the notification element. Title is a string, content can either be a string or HTML. */
     show(title: string, content: string, options: options): string;
     /**Destroys the notification with the associated ID */

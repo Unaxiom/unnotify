@@ -28,7 +28,10 @@ import * as unnotify from '@unaxiom/unnotify';
 
 ```js
 // Initialization is required just once across all the files.
-unnotify.init(); // Default is on the right. Also accepts a string - 'left' or 'right'
+unnotify.init(); // Default is on the right. Also accepts a string - 'left' or 'right'.
+
+// Can also be initialized in the following way
+unnotify.init('right', true); // The second parameter denotes if the notification should have the ability to be clickable. Default is false.
 
 // To display a notification
 var notificationID = unnotify.show('This is the Title', 'This is the content', {
