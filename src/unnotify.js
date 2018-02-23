@@ -65,6 +65,8 @@ function __unnotifyDiv(eachNotificationClassName, options) {
 function __unnotifyTitle(title) {
     var titleDiv = document.createElement("div");
     var titleSpan = document.createElement("span");
+    titleSpan.style.fontWeight = "700";
+    titleSpan.style.fontSize = "1.6rem";
     titleSpan.innerText = title;
     titleDiv.appendChild(titleSpan);
     return titleDiv;
