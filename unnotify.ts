@@ -64,6 +64,28 @@ function __unnotifyReturnClasses(localNotificationCenterClassName: string, local
             pointer-events: initial;
         }
 
+        .unnotify-close-btn {
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .unnotify-action-btn {
+            width: 50%;
+            color: #fff;
+            text-align: center;
+            padding: 5px 0px;
+            margin-top: 10px;
+            border: none;
+            cursor: pointer;
+            background-color: rgba(0, 0, 0, 0);
+            outline: none;
+        }
+
+        .unnotify-action-btn:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+            outline: none;
+        }
+
         .unnotify-success {
             background-color: rgba(27, 94, 32, 0.8);
         }
@@ -102,7 +124,7 @@ function __unnotifyReturnClasses(localNotificationCenterClassName: string, local
             }
 
             .${localEachNotificationClassName} {
-                width: 100%;
+                width: 90%;
             }
         }
     
@@ -116,7 +138,7 @@ function __unnotifyReturnClasses(localNotificationCenterClassName: string, local
             }
 
             .${localEachNotificationClassName} {
-                width: 100%;
+                width: 90%;
             }
         }
     `;
@@ -166,8 +188,16 @@ function __unnotifyTitle(title: string): HTMLDivElement {
 function __unnotifyCloseButton(closeButtonClass: string): HTMLButtonElement {
     let closeButton = document.createElement("button");
     closeButton.classList.add(closeButtonClass);
+    closeButton.classList.add("unnotify-close-btn");
     closeButton.innerText = "x";
     return closeButton;
+}
+
+function __unnotifyActionButton(text: string): HTMLButtonElement {
+    let btn = document.createElement("button");
+    btn.classList.add("unnotify-action-btn");
+    btn.innerText = text;
+    return btn
 }
 
 /**Returns the div that displays the content of the notification */
@@ -175,6 +205,19 @@ function __unnotifyContent(content: string): HTMLDivElement {
     let contentDiv = document.createElement("div");
     contentDiv.innerHTML = content;
     return contentDiv;
+}
+
+function __setupDestroyEventHandlers(div: HTMLDivElement, options: options) {
+    // If timeout is 0, then don't autodestroy it
+    if (typeof (options.timeout) == "undefined" || typeof (options.timeout) == null || options.timeout < 0) {
+        setTimeout(function () {
+            destroy(div.id);
+        }, defaultTimeout);
+    } else if (options.timeout > 0) {
+        setTimeout(function () {
+            destroy(div.id);
+        }, options.timeout)
+    }
 }
 
 /**Internal function to display the notification */
@@ -188,21 +231,44 @@ function __unnotifyShow(eachNotificationClassName: string, notificationButtonCla
         destroy(div.id);
     });
 
-    // If timeout is 0, then don't autodestroy it
-    if (typeof (options.timeout) == "undefined" || typeof (options.timeout) == null || options.timeout < 0) {
-        setTimeout(function () {
-            destroy(div.id);
-        }, defaultTimeout);
-    } else if (options.timeout > 0) {
-        setTimeout(function () {
-            destroy(div.id);
-        }, options.timeout)
-    }
-
     let contentDiv = __unnotifyContent(content);
 
     div.appendChild(titleDiv);
     div.appendChild(contentDiv);
+    __setupDestroyEventHandlers(div, options);
+    notificationCenter.appendChild(div);
+
+    return div.id;
+}
+
+/**Internal function to display a confirmation notification */
+function __unnotifyConfirm(eachNotificationClassName: string, notificationButtonClassName: string, content: string, options: options, onConfirmCallback: Function, onCancelCallback: Function): string {
+    let div = __unnotifyDiv(eachNotificationClassName, options);
+    let closeButton = __unnotifyCloseButton(notificationButtonClassName);
+    closeButton.addEventListener('click', function () {
+        destroy(div.id);
+    });
+    let contentDiv = __unnotifyContent(content);
+    let confirmButton = __unnotifyActionButton("Confirm");
+    let cancelButton = __unnotifyActionButton("Cancel");
+
+    div.appendChild(closeButton);
+    div.appendChild(contentDiv);
+    div.appendChild(confirmButton);
+    div.appendChild(cancelButton);
+
+    if (onConfirmCallback != undefined && onConfirmCallback != null) {
+        confirmButton.addEventListener('click', evt => {
+            onConfirmCallback(evt, div.id);
+        });
+    }
+    if (onCancelCallback != undefined && onCancelCallback != null) {
+        cancelButton.addEventListener('click', evt => {
+            onCancelCallback(evt, div.id);
+        });
+    }
+    
+    
     notificationCenter.appendChild(div);
     return div.id;
 }
@@ -240,6 +306,12 @@ export function show(title: string, content: string, options: options): string {
     return __unnotifyShow(eachNotificationClassName, notificationButtonClassName, title, content, options);
 }
 
+/**Shows a confirmation notification and accepts a confirmation callback (executed if the user confirms) 
+     * and an optional on-cancel callback (executed if the user cancels) and returns the ID of the notification */
+export function confirm(content: string, options: options, onConfirmCallback: Function, onCancelCallback?: Function): string {
+    return __unnotifyConfirm(this.localEachNotificationClassName, notificationButtonClassName, content, options, onConfirmCallback, onCancelCallback);
+}
+
 /**Destroys the notification with the associated ID */
 export function destroy(id: string) {
     __unnotifyDestroy(id);
@@ -260,6 +332,12 @@ export class Unnotify {
     /**Displays the notification and returns the ID of the notification element. Title is a string, content can either be a string or HTML. */
     show(title: string, content: string, options: options): string {
         return __unnotifyShow(this.localEachNotificationClassName, notificationButtonClassName, title, content, options);
+    }
+
+    /**Shows a confirmation notification and accepts a confirmation callback (executed if the user confirms) 
+     * and an optional on-cancel callback (executed if the user cancels) and returns the ID of the notification */
+    confirm(content: string, options: options, onConfirmCallback: Function, onCancelCallback?: Function): string {
+        return __unnotifyConfirm(this.localEachNotificationClassName, notificationButtonClassName, content, options, onConfirmCallback, onCancelCallback);
     }
 
     /**Destroys the notification with the associated ID */

@@ -42,6 +42,20 @@ var notificationID = unnotify.show('This is the Title', 'This is the content', {
     animateOut: 'bounceOut', // (**Optional**) Name of the animation class (from animate.css) that needs to be used while destroying the notification.
 })
 
+// To display a notification requesting confirmation
+var anotherNotificationID = unnotify.confirm("Display content that needs to be confirmed by the user", {
+    type: 'warning',
+    animateIn: 'lightSpeedIn',
+    animateOut: 'bounceOut',
+}, function(evt, anotherNotificationID) {} {
+    // This is the on-confirm event handler
+    // Do something here as the user has confirmed
+}, function(evt, anotherNotificationID) {
+    // This is the on-cancel event handler
+    // This is OPTIONAL
+    // Do something here as the user has cancelled
+});
+
 // To close the notification programatically
 unnotify.destroy(notificationID);
 ```

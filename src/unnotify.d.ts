@@ -2,6 +2,9 @@
 export declare function init(side?: 'left' | 'right', clickable?: boolean): void;
 /**Displays the notification and returns the ID of the notification element. Title is a string, content can either be a string or HTML. */
 export declare function show(title: string, content: string, options: options): string;
+/**Shows a confirmation notification and accepts a confirmation callback (executed if the user confirms)
+     * and an optional on-cancel callback (executed if the user cancels) and returns the ID of the notification */
+export declare function confirm(content: string, options: options, onConfirmCallback: Function, onCancelCallback?: Function): string;
 /**Destroys the notification with the associated ID */
 export declare function destroy(id: string): void;
 /**Class that can display the notifications */
@@ -12,6 +15,9 @@ export declare class Unnotify {
     constructor(side?: 'left' | 'right', clickable?: boolean);
     /**Displays the notification and returns the ID of the notification element. Title is a string, content can either be a string or HTML. */
     show(title: string, content: string, options: options): string;
+    /**Shows a confirmation notification and accepts a confirmation callback (executed if the user confirms)
+     * and an optional on-cancel callback (executed if the user cancels) and returns the ID of the notification */
+    confirm(content: string, options: options, onConfirmCallback: Function, onCancelCallback?: Function): string;
     /**Destroys the notification with the associated ID */
     destroy(id: string): void;
 }

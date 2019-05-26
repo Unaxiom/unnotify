@@ -32,7 +32,7 @@ function __unnotifyReturnClasses(localNotificationCenterClassName, localEachNoti
     if (!clickable) {
         pointerEvents = "none";
     }
-    return "\n        ." + localNotificationCenterClassName + " {\n            position: absolute;\n            top: 20px;\n            z-index: 25000;\n            overflow-y: auto;\n            overflow-x: hidden;\n            pointer-events: " + pointerEvents + ";\n        }\n\n        ." + localEachNotificationClassName + " {\n            padding: 10px;\n            margin: 10px;\n            border-radius: 5px;\n            color: #fff;\n            width: 350px;\n            min-height: 40px;\n            position: static;\n            top: 30px;\n            z-index: 25100;\n            pointer-events: " + pointerEvents + ";\n        }\n\n        ." + localNotificationButtonClassName + " {\n            float: right;\n            position: relative;\n            top: -7px;\n            right: -10px;\n            background-color: transparent;\n            border: none;\n            pointer-events: initial;\n        }\n\n        .unnotify-success {\n            background-color: rgba(27, 94, 32, 0.8);\n        }\n\n        .unnotify-info {\n            background-color: rgba(29, 121, 198, 0.8);\n        }\n\n        .unnotify-warning {\n            background-color: rgba(251, 114, 4, 0.8);\n        }\n\n        .unnotify-danger {\n            background-color: rgba(213, 0, 0, 0.8);\n        }\n\n        /* Custom, iPhone Retina */ \n        @media only screen and (min-width : 320px) {\n            ." + localNotificationCenterClassName + " {\n                margin: 0px 2px;\n                padding: 0px 2px;\n            }\n\n            ." + localEachNotificationClassName + " {\n                width: 300px;\n            }\n        }\n    \n        /* Extra Small Devices, Phones */ \n        @media only screen and (min-width : 480px) {\n            ." + localNotificationCenterClassName + " {\n                width: 360px;\n                " + side + ": 0px;\n                padding: 10px;\n                margin: 0px 20px;\n            }\n\n            ." + localEachNotificationClassName + " {\n                width: 100%;\n            }\n        }\n    \n        /* Small Devices, Tablets */\n        @media only screen and (min-width : 768px) {\n            ." + localNotificationCenterClassName + " {\n                width: 360px;\n                " + side + ": 0px;\n                padding: 10px;\n                margin: 0px 20px;\n            }\n\n            ." + localEachNotificationClassName + " {\n                width: 100%;\n            }\n        }\n    ";
+    return "\n        ." + localNotificationCenterClassName + " {\n            position: absolute;\n            top: 20px;\n            z-index: 25000;\n            overflow-y: auto;\n            overflow-x: hidden;\n            pointer-events: " + pointerEvents + ";\n        }\n\n        ." + localEachNotificationClassName + " {\n            padding: 10px;\n            margin: 10px;\n            border-radius: 5px;\n            color: #fff;\n            width: 350px;\n            min-height: 40px;\n            position: static;\n            top: 30px;\n            z-index: 25100;\n            pointer-events: " + pointerEvents + ";\n        }\n\n        ." + localNotificationButtonClassName + " {\n            float: right;\n            position: relative;\n            top: -7px;\n            right: -10px;\n            background-color: transparent;\n            border: none;\n            pointer-events: initial;\n        }\n\n        .unnotify-close-btn {\n            color: #fff;\n            cursor: pointer;\n        }\n\n        .unnotify-action-btn {\n            width: 50%;\n            color: #fff;\n            text-align: center;\n            padding: 5px 0px;\n            margin-top: 10px;\n            border: none;\n            cursor: pointer;\n            background-color: rgba(0, 0, 0, 0);\n            outline: none;\n        }\n\n        .unnotify-action-btn:hover {\n            background-color: rgba(0, 0, 0, 0.1);\n            outline: none;\n        }\n\n        .unnotify-success {\n            background-color: rgba(27, 94, 32, 0.8);\n        }\n\n        .unnotify-info {\n            background-color: rgba(29, 121, 198, 0.8);\n        }\n\n        .unnotify-warning {\n            background-color: rgba(251, 114, 4, 0.8);\n        }\n\n        .unnotify-danger {\n            background-color: rgba(213, 0, 0, 0.8);\n        }\n\n        /* Custom, iPhone Retina */ \n        @media only screen and (min-width : 320px) {\n            ." + localNotificationCenterClassName + " {\n                margin: 0px 2px;\n                padding: 0px 2px;\n            }\n\n            ." + localEachNotificationClassName + " {\n                width: 300px;\n            }\n        }\n    \n        /* Extra Small Devices, Phones */ \n        @media only screen and (min-width : 480px) {\n            ." + localNotificationCenterClassName + " {\n                width: 360px;\n                " + side + ": 0px;\n                padding: 10px;\n                margin: 0px 20px;\n            }\n\n            ." + localEachNotificationClassName + " {\n                width: 90%;\n            }\n        }\n    \n        /* Small Devices, Tablets */\n        @media only screen and (min-width : 768px) {\n            ." + localNotificationCenterClassName + " {\n                width: 360px;\n                " + side + ": 0px;\n                padding: 10px;\n                margin: 0px 20px;\n            }\n\n            ." + localEachNotificationClassName + " {\n                width: 90%;\n            }\n        }\n    ";
 }
 /**Returns the Div Element that houses the notification */
 function __unnotifyDiv(eachNotificationClassName, options) {
@@ -75,8 +75,15 @@ function __unnotifyTitle(title) {
 function __unnotifyCloseButton(closeButtonClass) {
     var closeButton = document.createElement("button");
     closeButton.classList.add(closeButtonClass);
+    closeButton.classList.add("unnotify-close-btn");
     closeButton.innerText = "x";
     return closeButton;
+}
+function __unnotifyActionButton(text) {
+    var btn = document.createElement("button");
+    btn.classList.add("unnotify-action-btn");
+    btn.innerText = text;
+    return btn;
 }
 /**Returns the div that displays the content of the notification */
 function __unnotifyContent(content) {
@@ -84,15 +91,7 @@ function __unnotifyContent(content) {
     contentDiv.innerHTML = content;
     return contentDiv;
 }
-/**Internal function to display the notification */
-function __unnotifyShow(eachNotificationClassName, notificationButtonClassName, title, content, options) {
-    var div = __unnotifyDiv(eachNotificationClassName, options);
-    var titleDiv = __unnotifyTitle(title);
-    var closeButton = __unnotifyCloseButton(notificationButtonClassName);
-    titleDiv.appendChild(closeButton);
-    closeButton.addEventListener('click', function () {
-        destroy(div.id);
-    });
+function __setupDestroyEventHandlers(div, options) {
     // If timeout is 0, then don't autodestroy it
     if (typeof (options.timeout) == "undefined" || typeof (options.timeout) == null || options.timeout < 0) {
         setTimeout(function () {
@@ -104,9 +103,47 @@ function __unnotifyShow(eachNotificationClassName, notificationButtonClassName, 
             destroy(div.id);
         }, options.timeout);
     }
+}
+/**Internal function to display the notification */
+function __unnotifyShow(eachNotificationClassName, notificationButtonClassName, title, content, options) {
+    var div = __unnotifyDiv(eachNotificationClassName, options);
+    var titleDiv = __unnotifyTitle(title);
+    var closeButton = __unnotifyCloseButton(notificationButtonClassName);
+    titleDiv.appendChild(closeButton);
+    closeButton.addEventListener('click', function () {
+        destroy(div.id);
+    });
     var contentDiv = __unnotifyContent(content);
     div.appendChild(titleDiv);
     div.appendChild(contentDiv);
+    __setupDestroyEventHandlers(div, options);
+    notificationCenter.appendChild(div);
+    return div.id;
+}
+/**Internal function to display a confirmation notification */
+function __unnotifyConfirm(eachNotificationClassName, notificationButtonClassName, content, options, onConfirmCallback, onCancelCallback) {
+    var div = __unnotifyDiv(eachNotificationClassName, options);
+    var closeButton = __unnotifyCloseButton(notificationButtonClassName);
+    closeButton.addEventListener('click', function () {
+        destroy(div.id);
+    });
+    var contentDiv = __unnotifyContent(content);
+    var confirmButton = __unnotifyActionButton("Confirm");
+    var cancelButton = __unnotifyActionButton("Cancel");
+    div.appendChild(closeButton);
+    div.appendChild(contentDiv);
+    div.appendChild(confirmButton);
+    div.appendChild(cancelButton);
+    if (onConfirmCallback != undefined && onConfirmCallback != null) {
+        confirmButton.addEventListener('click', function (evt) {
+            onConfirmCallback(evt, div.id);
+        });
+    }
+    if (onCancelCallback != undefined && onCancelCallback != null) {
+        cancelButton.addEventListener('click', function (evt) {
+            onCancelCallback(evt, div.id);
+        });
+    }
     notificationCenter.appendChild(div);
     return div.id;
 }
@@ -144,6 +181,12 @@ function show(title, content, options) {
     return __unnotifyShow(eachNotificationClassName, notificationButtonClassName, title, content, options);
 }
 exports.show = show;
+/**Shows a confirmation notification and accepts a confirmation callback (executed if the user confirms)
+     * and an optional on-cancel callback (executed if the user cancels) and returns the ID of the notification */
+function confirm(content, options, onConfirmCallback, onCancelCallback) {
+    return __unnotifyConfirm(this.localEachNotificationClassName, notificationButtonClassName, content, options, onConfirmCallback, onCancelCallback);
+}
+exports.confirm = confirm;
 /**Destroys the notification with the associated ID */
 function destroy(id) {
     __unnotifyDestroy(id);
@@ -161,6 +204,11 @@ var Unnotify = /** @class */ (function () {
     /**Displays the notification and returns the ID of the notification element. Title is a string, content can either be a string or HTML. */
     Unnotify.prototype.show = function (title, content, options) {
         return __unnotifyShow(this.localEachNotificationClassName, notificationButtonClassName, title, content, options);
+    };
+    /**Shows a confirmation notification and accepts a confirmation callback (executed if the user confirms)
+     * and an optional on-cancel callback (executed if the user cancels) and returns the ID of the notification */
+    Unnotify.prototype.confirm = function (content, options, onConfirmCallback, onCancelCallback) {
+        return __unnotifyConfirm(this.localEachNotificationClassName, notificationButtonClassName, content, options, onConfirmCallback, onCancelCallback);
     };
     /**Destroys the notification with the associated ID */
     Unnotify.prototype.destroy = function (id) {

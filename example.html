@@ -11,8 +11,20 @@
 </body>
 <script type="text/javascript" src="dist/unnotify.min.js"></script>
 <script type="text/javascript">
+    function clickedConfirm(evt, id) {
+        evt.preventDefault();
+        console.log(evt);
+        console.log(id);
+    }
+
+    function clickedCancel(evt, id) {
+        evt.preventDefault();
+        console.log(evt);
+        console.log(id);
+    }
+
     window.addEventListener('load', function () {
-        var left = new unnotify.Unnotify('right');
+        var left = new unnotify.Unnotify('right', true);
         let temp = left.show("Hi", "From right", {
             timeout: 0,
             type: 'info',
@@ -28,6 +40,18 @@
             animateIn: 'fadeInUpBig',
             animateOut: 'rotateOutDownLeft'
         });
+
+        left.confirm("Confirm this content", {
+            type: "warning",
+            animateIn: "fadeInUpBig",
+            animateOut: "rotateOutDownLeft"
+        }, clickedConfirm, clickedCancel);
+
+        left.confirm("Confirm this content", {
+            type: "info",
+            animateIn: "fadeInUpBig",
+            animateOut: "rotateOutDownLeft"
+        }, clickedConfirm, clickedCancel);
 
         // var right = new unnotify.Unnotify('right');
         // right.show("Hi", "From right", {
