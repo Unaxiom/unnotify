@@ -119,7 +119,7 @@ function __unnotifyReturnClasses(localNotificationCenterClassName: string, local
             .${localNotificationCenterClassName} {
                 width: 360px;
                 ${side}: 0px;
-                padding: 10px;
+                padding: 0px 10px;
                 margin: 0px 20px;
             }
 
@@ -133,7 +133,7 @@ function __unnotifyReturnClasses(localNotificationCenterClassName: string, local
             .${localNotificationCenterClassName} {
                 width: 360px;
                 ${side}: 0px;
-                padding: 10px;
+                padding: 0px 10px;
                 margin: 0px 20px;
             }
 
