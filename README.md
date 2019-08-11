@@ -56,6 +56,20 @@ var anotherNotificationID = unnotify.confirm("Display content that needs to be c
     // Do something here as the user has cancelled
 });
 
+// To display a notification requesting affirmation
+var nID = unnotify.affirm("Display content that needs to be affirmed by the user", {
+    type: 'warning',
+    animateIn: 'lightSpeedIn',
+    animateOut: 'bounceOut',
+}, function(evt, nID) {} {
+    // This is the event handler that is called when the user clicks on Yes
+    // Do something here as the user has confirmed
+}, function(evt, nID) {
+    // This is the event handler that is called when the user clicks on No
+    // This is OPTIONAL
+    // Do something here as the user has cancelled
+});
+
 // To close the notification programatically
 unnotify.destroy(notificationID);
 ```

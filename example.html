@@ -13,14 +13,22 @@
 <script type="text/javascript">
     function clickedConfirm(evt, id) {
         evt.preventDefault();
-        console.log(evt);
-        console.log(id);
+        console.log("Clicked confirm with notification ID: "+id);
     }
 
     function clickedCancel(evt, id) {
         evt.preventDefault();
-        console.log(evt);
-        console.log(id);
+        console.log("Clicked cancel with notification ID: "+id);
+    }
+
+    function clickedYes(evt, id) {
+        evt.preventDefault();
+        console.log("Clicked yes with notification ID: "+id);
+    }
+
+    function clickedNo(evt, id) {
+        evt.preventDefault();
+        console.log("Clicked no with notification ID: "+id);
     }
 
     window.addEventListener('load', function () {
@@ -41,17 +49,23 @@
             animateOut: 'rotateOutDownLeft'
         });
 
-        left.confirm("Confirm this content", {
+        left.confirm("Confirm this content, and check the console", {
             type: "warning",
             animateIn: "fadeInUpBig",
             animateOut: "rotateOutDownLeft"
         }, clickedConfirm, clickedCancel);
 
-        left.confirm("Confirm this content", {
+        left.confirm("Confirm this content, and check the console", {
             type: "info",
             animateIn: "fadeInUpBig",
             animateOut: "rotateOutDownLeft"
         }, clickedConfirm, clickedCancel);
+
+        left.affirm("Affirm this content, and check the console", {
+            type: "info",
+            animateIn: "fadeInUpBig",
+            animateOut: "rotateOutDownLeft"
+        }, clickedYes, clickedNo);
 
         // var right = new unnotify.Unnotify('right');
         // right.show("Hi", "From right", {

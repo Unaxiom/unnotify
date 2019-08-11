@@ -121,15 +121,15 @@ function __unnotifyShow(eachNotificationClassName, notificationButtonClassName, 
     return div.id;
 }
 /**Internal function to display a confirmation notification */
-function __unnotifyConfirm(eachNotificationClassName, notificationButtonClassName, content, options, onConfirmCallback, onCancelCallback) {
+function __unnotifyConfirm(eachNotificationClassName, notificationButtonClassName, content, options, confirmButtonName, cancelButtonName, onConfirmCallback, onCancelCallback) {
     var div = __unnotifyDiv(eachNotificationClassName, options);
     var closeButton = __unnotifyCloseButton(notificationButtonClassName);
     closeButton.addEventListener('click', function () {
         destroy(div.id);
     });
     var contentDiv = __unnotifyContent(content);
-    var confirmButton = __unnotifyActionButton("Confirm");
-    var cancelButton = __unnotifyActionButton("Cancel");
+    var confirmButton = __unnotifyActionButton(confirmButtonName);
+    var cancelButton = __unnotifyActionButton(cancelButtonName);
     div.appendChild(closeButton);
     div.appendChild(contentDiv);
     div.appendChild(confirmButton);
@@ -181,12 +181,18 @@ function show(title, content, options) {
     return __unnotifyShow(eachNotificationClassName, notificationButtonClassName, title, content, options);
 }
 exports.show = show;
-/**Shows a confirmation notification and accepts a confirmation callback (executed if the user confirms)
+/**Shows a confirmation notification (with two options: Confirm and Cancel) and accepts a confirmation callback (executed if the user confirms)
      * and an optional on-cancel callback (executed if the user cancels) and returns the ID of the notification */
 function confirm(content, options, onConfirmCallback, onCancelCallback) {
-    return __unnotifyConfirm(this.localEachNotificationClassName, notificationButtonClassName, content, options, onConfirmCallback, onCancelCallback);
+    return __unnotifyConfirm(this.localEachNotificationClassName, notificationButtonClassName, content, options, "Confirm", "Cancel", onConfirmCallback, onCancelCallback);
 }
 exports.confirm = confirm;
+/**Shows a confirmation notification (with two options: Yes and No) and accepts a confirmation callback (executed if the user clicks on Yes)
+    * and an optional callback that is executed if the user clicks on No, and returns the ID of the notification */
+function affirm(content, options, onConfirmCallback, onCancelCallback) {
+    return __unnotifyConfirm(this.localEachNotificationClassName, notificationButtonClassName, content, options, "Yes", "No", onConfirmCallback, onCancelCallback);
+}
+exports.affirm = affirm;
 /**Destroys the notification with the associated ID */
 function destroy(id) {
     __unnotifyDestroy(id);
@@ -208,7 +214,12 @@ var Unnotify = /** @class */ (function () {
     /**Shows a confirmation notification and accepts a confirmation callback (executed if the user confirms)
      * and an optional on-cancel callback (executed if the user cancels) and returns the ID of the notification */
     Unnotify.prototype.confirm = function (content, options, onConfirmCallback, onCancelCallback) {
-        return __unnotifyConfirm(this.localEachNotificationClassName, notificationButtonClassName, content, options, onConfirmCallback, onCancelCallback);
+        return __unnotifyConfirm(this.localEachNotificationClassName, notificationButtonClassName, content, options, "Confirm", "Cancel", onConfirmCallback, onCancelCallback);
+    };
+    /**Shows a confirmation notification (with two options: Yes and No) and accepts a confirmation callback (executed if the user clicks on Yes)
+    * and an optional callback that is executed if the user clicks on No, and returns the ID of the notification */
+    Unnotify.prototype.affirm = function (content, options, onConfirmCallback, onCancelCallback) {
+        return __unnotifyConfirm(this.localEachNotificationClassName, notificationButtonClassName, content, options, "Yes", "No", onConfirmCallback, onCancelCallback);
     };
     /**Destroys the notification with the associated ID */
     Unnotify.prototype.destroy = function (id) {

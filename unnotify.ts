@@ -242,15 +242,15 @@ function __unnotifyShow(eachNotificationClassName: string, notificationButtonCla
 }
 
 /**Internal function to display a confirmation notification */
-function __unnotifyConfirm(eachNotificationClassName: string, notificationButtonClassName: string, content: string, options: options, onConfirmCallback: Function, onCancelCallback: Function): string {
+function __unnotifyConfirm(eachNotificationClassName: string, notificationButtonClassName: string, content: string, options: options, confirmButtonName: "Confirm" | "Yes", cancelButtonName: "Cancel" | "No", onConfirmCallback: Function, onCancelCallback: Function): string {
     let div = __unnotifyDiv(eachNotificationClassName, options);
     let closeButton = __unnotifyCloseButton(notificationButtonClassName);
     closeButton.addEventListener('click', function () {
         destroy(div.id);
     });
     let contentDiv = __unnotifyContent(content);
-    let confirmButton = __unnotifyActionButton("Confirm");
-    let cancelButton = __unnotifyActionButton("Cancel");
+    let confirmButton = __unnotifyActionButton(confirmButtonName);
+    let cancelButton = __unnotifyActionButton(cancelButtonName);
 
     div.appendChild(closeButton);
     div.appendChild(contentDiv);
@@ -306,10 +306,16 @@ export function show(title: string, content: string, options: options): string {
     return __unnotifyShow(eachNotificationClassName, notificationButtonClassName, title, content, options);
 }
 
-/**Shows a confirmation notification and accepts a confirmation callback (executed if the user confirms) 
+/**Shows a confirmation notification (with two options: Confirm and Cancel) and accepts a confirmation callback (executed if the user confirms) 
      * and an optional on-cancel callback (executed if the user cancels) and returns the ID of the notification */
 export function confirm(content: string, options: options, onConfirmCallback: Function, onCancelCallback?: Function): string {
-    return __unnotifyConfirm(this.localEachNotificationClassName, notificationButtonClassName, content, options, onConfirmCallback, onCancelCallback);
+    return __unnotifyConfirm(this.localEachNotificationClassName, notificationButtonClassName, content, options, "Confirm", "Cancel", onConfirmCallback, onCancelCallback);
+}
+
+/**Shows a confirmation notification (with two options: Yes and No) and accepts a confirmation callback (executed if the user clicks on Yes) 
+    * and an optional callback that is executed if the user clicks on No, and returns the ID of the notification */
+export function affirm(content: string, options: options, onConfirmCallback: Function, onCancelCallback?: Function): string {
+    return __unnotifyConfirm(this.localEachNotificationClassName, notificationButtonClassName, content, options, "Yes", "No", onConfirmCallback, onCancelCallback);
 }
 
 /**Destroys the notification with the associated ID */
@@ -337,7 +343,13 @@ export class Unnotify {
     /**Shows a confirmation notification and accepts a confirmation callback (executed if the user confirms) 
      * and an optional on-cancel callback (executed if the user cancels) and returns the ID of the notification */
     confirm(content: string, options: options, onConfirmCallback: Function, onCancelCallback?: Function): string {
-        return __unnotifyConfirm(this.localEachNotificationClassName, notificationButtonClassName, content, options, onConfirmCallback, onCancelCallback);
+        return __unnotifyConfirm(this.localEachNotificationClassName, notificationButtonClassName, content, options, "Confirm", "Cancel", onConfirmCallback, onCancelCallback);
+    }
+
+    /**Shows a confirmation notification (with two options: Yes and No) and accepts a confirmation callback (executed if the user clicks on Yes) 
+    * and an optional callback that is executed if the user clicks on No, and returns the ID of the notification */
+    affirm(content: string, options: options, onConfirmCallback: Function, onCancelCallback?: Function): string {
+        return __unnotifyConfirm(this.localEachNotificationClassName, notificationButtonClassName, content, options, "Yes", "No", onConfirmCallback, onCancelCallback);
     }
 
     /**Destroys the notification with the associated ID */
