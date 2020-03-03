@@ -4,10 +4,12 @@ export declare function init(side?: 'left' | 'right', clickable?: boolean): void
 export declare function show(title: string, content: string, options: options): string;
 /**Shows a confirmation notification (with two options: Confirm and Cancel) and accepts a confirmation callback (executed if the user confirms)
      * and an optional on-cancel callback (executed if the user cancels) and returns the ID of the notification */
-export declare function confirm(content: string, options: options, onConfirmCallback: Function, onCancelCallback?: Function): string;
+export declare function confirm(content: string, options: options, onConfirmCallback: (evt: MouseEvent, id: string) => void, onCancelCallback?: (evt: MouseEvent, id: string) => void): string;
 /**Shows a confirmation notification (with two options: Yes and No) and accepts a confirmation callback (executed if the user clicks on Yes)
     * and an optional callback that is executed if the user clicks on No, and returns the ID of the notification */
-export declare function affirm(content: string, options: options, onConfirmCallback: Function, onCancelCallback?: Function): string;
+export declare function affirm(content: string, options: options, onConfirmCallback: (evt: MouseEvent, id: string) => void, onCancelCallback?: (evt: MouseEvent, id: string) => void): string;
+/**Displays a notification with the provision for an input, which is passed to the onNextCallback when the user clicks on "Next" */
+export declare function input(title: string, options: options, onNextCallback: (evt: MouseEvent, id: string, valueEntered: string) => void, onCancelCallback?: (evt: MouseEvent, id: string) => void): string;
 /**Destroys the notification with the associated ID */
 export declare function destroy(id: string): void;
 /**Class that can display the notifications */
@@ -20,10 +22,12 @@ export declare class Unnotify {
     show(title: string, content: string, options: options): string;
     /**Shows a confirmation notification and accepts a confirmation callback (executed if the user confirms)
      * and an optional on-cancel callback (executed if the user cancels) and returns the ID of the notification */
-    confirm(content: string, options: options, onConfirmCallback: Function, onCancelCallback?: Function): string;
+    confirm(content: string, options: options, onConfirmCallback: (evt: MouseEvent, id: string) => void, onCancelCallback?: (evt: MouseEvent, id: string) => void): string;
     /**Shows a confirmation notification (with two options: Yes and No) and accepts a confirmation callback (executed if the user clicks on Yes)
     * and an optional callback that is executed if the user clicks on No, and returns the ID of the notification */
-    affirm(content: string, options: options, onConfirmCallback: Function, onCancelCallback?: Function): string;
+    affirm(content: string, options: options, onConfirmCallback: (evt: MouseEvent, id: string) => void, onCancelCallback?: (evt: MouseEvent, id: string) => void): string;
+    /**Displays a notification with the provision for an input, which is passed to the onNextCallback when the user clicks on "Next" */
+    input(title: string, options: options, onNextCallback: (evt: MouseEvent, id: string, valueEntered: string) => void, onCancelCallback?: (evt: MouseEvent, id: string) => void): string;
     /**Destroys the notification with the associated ID */
     destroy(id: string): void;
 }

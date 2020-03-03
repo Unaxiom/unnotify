@@ -31,6 +31,11 @@
         console.log("Clicked no with notification ID: "+id);
     }
 
+    function nextCallback(evt, id, valueEntered) {
+        evt.preventDefault();
+        console.log("Clicked Next with the following content: ", valueEntered);
+    }
+
     window.addEventListener('load', function () {
         var left = new unnotify.Unnotify('right', true);
         let temp = left.show("Hi", "From right", {
@@ -67,6 +72,16 @@
             animateOut: "rotateOutDownLeft"
         }, clickedYes, clickedNo);
 
+        var l = ["info", "warning", "success", "danger"];
+        for (var i = 0; i < l.length; i++) {
+            var t = l[i];
+            left.input("This is a message -> enter some content in the input below:", {
+                type: t,
+                animateIn: "fadeInUpBig",
+                animateOut: "rotateOutDownLeft"
+            }, nextCallback, clickedCancel);
+        }
+        
         // var right = new unnotify.Unnotify('right');
         // right.show("Hi", "From right", {
         //     timeout: 4000,

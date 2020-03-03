@@ -86,6 +86,19 @@ function __unnotifyReturnClasses(localNotificationCenterClassName: string, local
             outline: none;
         }
 
+        .unnotify-input {
+            background-color: rgba(0, 0, 0, 0.2);
+            width: 100%;
+            margin: 5px 0px;
+            padding: 5px 0px;
+            text-align: center;
+            color: #fff;
+            border-top-style: hidden;
+            border-right-style: hidden;
+            border-left-style: hidden;
+            border-bottom-style: hidden;
+        }
+
         .unnotify-success {
             background-color: rgba(27, 94, 32, 0.8);
         }
@@ -144,10 +157,15 @@ function __unnotifyReturnClasses(localNotificationCenterClassName: string, local
     `;
 }
 
+/**Returns a random ID */
+function randomID(): string {
+    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+}
+
 /**Returns the Div Element that houses the notification */
 function __unnotifyDiv(eachNotificationClassName: string, options: options): HTMLDivElement {
     let div = document.createElement("div");
-    div.id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    div.id = randomID();
     div.classList.add(eachNotificationClassName);
 
     if (options.type == "success" || options.type == "info" || options.type == "danger" || options.type == "warning") {
@@ -242,7 +260,7 @@ function __unnotifyShow(eachNotificationClassName: string, notificationButtonCla
 }
 
 /**Internal function to display a confirmation notification */
-function __unnotifyConfirm(eachNotificationClassName: string, notificationButtonClassName: string, content: string, options: options, confirmButtonName: "Confirm" | "Yes", cancelButtonName: "Cancel" | "No", onConfirmCallback: Function, onCancelCallback: Function): string {
+function __unnotifyConfirm(eachNotificationClassName: string, notificationButtonClassName: string, content: string, options: options, confirmButtonName: "Confirm" | "Yes", cancelButtonName: "Cancel" | "No", onConfirmCallback: (evt: MouseEvent, id: string) => void, onCancelCallback: (evt: MouseEvent, id: string) => void): string {
     let div = __unnotifyDiv(eachNotificationClassName, options);
     let closeButton = __unnotifyCloseButton(notificationButtonClassName);
     closeButton.addEventListener('click', function () {
@@ -273,6 +291,47 @@ function __unnotifyConfirm(eachNotificationClassName: string, notificationButton
     return div.id;
 }
 
+/**Internal function to display an input notification */
+function __unnotifyInputHandler(eachNotificationClassName: string, notificationButtonClassName: string, title: string, options: options, onNextCallback: (evt: MouseEvent, id: string, valueEntered: string) => void, onCancelCallback: (evt: MouseEvent, id: string) => void): string {
+    let div = __unnotifyDiv(eachNotificationClassName, options);
+    let closeButton = __unnotifyCloseButton(notificationButtonClassName);
+    closeButton.addEventListener('click', function () {
+        destroy(div.id);
+    });
+    let titleDiv = __unnotifyContent(title);
+    
+    let inp = document.createElement("input");
+    inp.id = randomID();
+    inp.classList.add("unnotify-input");
+
+
+    let confirmButton = __unnotifyActionButton("Next");
+    let cancelButton = __unnotifyActionButton("Cancel");
+
+    div.appendChild(closeButton);
+    div.appendChild(titleDiv);
+    div.appendChild(inp);
+
+    div.appendChild(confirmButton);
+    div.appendChild(cancelButton);
+
+    if (onNextCallback != undefined && onNextCallback != null) {
+        confirmButton.addEventListener('click', evt => {
+            let valueEntered = inp.value;
+            onNextCallback(evt, div.id, valueEntered);
+        });
+    }
+    if (onCancelCallback != undefined && onCancelCallback != null) {
+        cancelButton.addEventListener('click', evt => {
+            onCancelCallback(evt, div.id);
+        });
+    }
+    
+    notificationCenter.appendChild(div);
+    return div.id;
+}
+
+/**Internal function to destroy the notification with the given id */
 function __unnotifyDestroy(id: string) {
     try {
         let div = <HTMLDivElement>document.getElementById(id);
@@ -308,14 +367,19 @@ export function show(title: string, content: string, options: options): string {
 
 /**Shows a confirmation notification (with two options: Confirm and Cancel) and accepts a confirmation callback (executed if the user confirms) 
      * and an optional on-cancel callback (executed if the user cancels) and returns the ID of the notification */
-export function confirm(content: string, options: options, onConfirmCallback: Function, onCancelCallback?: Function): string {
-    return __unnotifyConfirm(this.localEachNotificationClassName, notificationButtonClassName, content, options, "Confirm", "Cancel", onConfirmCallback, onCancelCallback);
+export function confirm(content: string, options: options, onConfirmCallback: (evt: MouseEvent, id: string) => void, onCancelCallback?: (evt: MouseEvent, id: string) => void): string {
+    return __unnotifyConfirm(eachNotificationClassName, notificationButtonClassName, content, options, "Confirm", "Cancel", onConfirmCallback, onCancelCallback);
 }
 
 /**Shows a confirmation notification (with two options: Yes and No) and accepts a confirmation callback (executed if the user clicks on Yes) 
     * and an optional callback that is executed if the user clicks on No, and returns the ID of the notification */
-export function affirm(content: string, options: options, onConfirmCallback: Function, onCancelCallback?: Function): string {
-    return __unnotifyConfirm(this.localEachNotificationClassName, notificationButtonClassName, content, options, "Yes", "No", onConfirmCallback, onCancelCallback);
+export function affirm(content: string, options: options, onConfirmCallback: (evt: MouseEvent, id: string) => void, onCancelCallback?: (evt: MouseEvent, id: string) => void): string {
+    return __unnotifyConfirm(eachNotificationClassName, notificationButtonClassName, content, options, "Yes", "No", onConfirmCallback, onCancelCallback);
+}
+
+/**Displays a notification with the provision for an input, which is passed to the onNextCallback when the user clicks on "Next" */
+export function input(title: string, options: options, onNextCallback: (evt: MouseEvent, id: string, valueEntered: string) => void, onCancelCallback?: (evt: MouseEvent, id: string) => void): string {
+    return __unnotifyInputHandler(eachNotificationClassName, notificationButtonClassName, title, options, onNextCallback, onCancelCallback);
 }
 
 /**Destroys the notification with the associated ID */
@@ -342,14 +406,19 @@ export class Unnotify {
 
     /**Shows a confirmation notification and accepts a confirmation callback (executed if the user confirms) 
      * and an optional on-cancel callback (executed if the user cancels) and returns the ID of the notification */
-    confirm(content: string, options: options, onConfirmCallback: Function, onCancelCallback?: Function): string {
+    confirm(content: string, options: options, onConfirmCallback: (evt: MouseEvent, id: string) => void, onCancelCallback?: (evt: MouseEvent, id: string) => void): string {
         return __unnotifyConfirm(this.localEachNotificationClassName, notificationButtonClassName, content, options, "Confirm", "Cancel", onConfirmCallback, onCancelCallback);
     }
 
     /**Shows a confirmation notification (with two options: Yes and No) and accepts a confirmation callback (executed if the user clicks on Yes) 
     * and an optional callback that is executed if the user clicks on No, and returns the ID of the notification */
-    affirm(content: string, options: options, onConfirmCallback: Function, onCancelCallback?: Function): string {
+    affirm(content: string, options: options, onConfirmCallback: (evt: MouseEvent, id: string) => void, onCancelCallback?: (evt: MouseEvent, id: string) => void): string {
         return __unnotifyConfirm(this.localEachNotificationClassName, notificationButtonClassName, content, options, "Yes", "No", onConfirmCallback, onCancelCallback);
+    }
+
+    /**Displays a notification with the provision for an input, which is passed to the onNextCallback when the user clicks on "Next" */
+    input(title: string, options: options, onNextCallback: (evt: MouseEvent, id: string, valueEntered: string) => void, onCancelCallback?: (evt: MouseEvent, id: string) => void): string {
+        return __unnotifyInputHandler(this.localEachNotificationClassName, notificationButtonClassName, title, options, onNextCallback, onCancelCallback);
     }
 
     /**Destroys the notification with the associated ID */

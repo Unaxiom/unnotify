@@ -47,7 +47,7 @@ var anotherNotificationID = unnotify.confirm("Display content that needs to be c
     type: 'warning',
     animateIn: 'lightSpeedIn',
     animateOut: 'bounceOut',
-}, function(evt, anotherNotificationID) {} {
+}, function(evt, anotherNotificationID) {
     // This is the on-confirm event handler
     // Do something here as the user has confirmed
 }, function(evt, anotherNotificationID) {
@@ -61,7 +61,7 @@ var nID = unnotify.affirm("Display content that needs to be affirmed by the user
     type: 'warning',
     animateIn: 'lightSpeedIn',
     animateOut: 'bounceOut',
-}, function(evt, nID) {} {
+}, function(evt, nID) {
     // This is the event handler that is called when the user clicks on Yes
     // Do something here as the user has confirmed
 }, function(evt, nID) {
@@ -69,6 +69,19 @@ var nID = unnotify.affirm("Display content that needs to be affirmed by the user
     // This is OPTIONAL
     // Do something here as the user has cancelled
 });
+
+// To display a notification with an input
+var inpID = unnotify.input("Text you want to display along with an input", {
+    type: 'warning',
+    animateIn: 'lightSpeedIn',
+    animateOut: 'bounceOut',
+}, function(evt, inpID, valueEntered) {
+    // This is the onNext event handler
+    // valueEntered is the value that was entered by the user in the input field
+}, function(evt, inpID) {
+    // This is the on-cancel event handler
+    // This is OPTIONAL
+})
 
 // To close the notification programatically
 unnotify.destroy(notificationID);
